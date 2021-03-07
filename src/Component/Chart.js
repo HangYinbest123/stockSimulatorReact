@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ReactHighcharts from 'react-highcharts/ReactHighstock.src'
 import moment from 'moment'
+import {numberFormat} from '../Util/numberFormat'
 
 export default class Chart extends Component {
 
@@ -12,15 +13,14 @@ export default class Chart extends Component {
             return (
 
                 <div>
-                    <ReactHighcharts config = {configPrice}></ReactHighcharts>
+                    <ReactHighcharts className="chart" config = {configPrice}></ReactHighcharts>
                 </div>
             )
         }
     }
 
     getConfigPrice(){
-        const options = {style: 'currency', currency: 'USD'};
-        const numberFormat = new Intl.NumberFormat('en-US', options);
+
         const configPrice = {
 
             yAxis: [{
@@ -53,9 +53,6 @@ export default class Chart extends Component {
                     gapSize: 6,
 
                 }
-            },
-            title: {
-                text: `${this.props.longName}  ${numberFormat.format(this.props.regularMarketPrice)}`
             },
             chart: {
                 height: 600,

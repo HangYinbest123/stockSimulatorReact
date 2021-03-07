@@ -1,0 +1,16 @@
+.stock-chart-with-searchbar{
+    width: 50%;
+    height: 50%;
+}
+
+* {
+    font-family: "Avenir", Helvetica, Arial, sans-serif;
+}
+
+.animated-stock-price{
+    text-align: center;
+}
+
+.stock-chart-with-searchbar{
+    margin: auto;
+}

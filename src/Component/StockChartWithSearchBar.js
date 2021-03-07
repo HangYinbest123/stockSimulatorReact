@@ -1,7 +1,10 @@
 import React, {Component} from 'react'
-import Chart from "./Component/Chart";
-import SearchBar from "./Component/SearchBar";
-import YahooFinancial from "./api/YahooFinancial";
+import Chart from "./Chart";
+import SearchBar from "./SearchBar";
+import YahooFinancial from "../api/YahooFinancial";
+import './StockChartWithSearchBar.css'
+import AnimatedStockPrice from "./AnimatedStockPrice";
+
 
 const GET_CHART_URL = "/stock/v2/get-chart";
 const GET_QUOTE_URL = "/market/v2/get-quotes";
@@ -89,8 +92,9 @@ export default class StockChartWithSearchBar extends Component {
 
     render() {
         return (
-            <div style={{width: '50%', height: '50%'}} >
+            <div className="stock-chart-with-searchbar">
                 <SearchBar onSubmit={this.OnSearchSubmit} placeholder="Search"/>
+                <AnimatedStockPrice className ="animated-stock-price" value={this.state.regularMarketPrice} longName={this.state.longName}></AnimatedStockPrice>
                 <Chart data={this.state.data} symbol={this.state.symbol} longName={this.state.longName} regularMarketPrice={this.state.regularMarketPrice}/>
             </div>
         )

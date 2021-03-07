@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import StockChartWithSearchBar from './StockChartWithSearchBar';
+import StockChartWithSearchBar from './Component/StockChartWithSearchBar';
 
 
 ReactDOM.render(

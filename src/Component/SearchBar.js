@@ -6,8 +6,10 @@ export default class SearchBar extends React.Component {
 
     onFormSubmit = event => {
         event.preventDefault();
-
-        this.props.onSubmit(this.state.term);
+        console.log("click");
+        if(this.state.term && this.state.term.length !== 0){
+            this.props.onSubmit(this.state.term);
+        }
     };
 
     render() {
@@ -20,7 +22,7 @@ export default class SearchBar extends React.Component {
                                 <input className="prompt" type="text" placeholder={this.props.placeholder}
                                        value={this.state.term}
                                        onChange={e => this.setState({term: e.target.value})}/>
-                                <i className="search icon"></i>
+                                <button onClick={this.onFormSubmit}><i className="search icon"></i></button>
                             </div>
                         </div>
                     </div>
