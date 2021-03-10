@@ -1,4 +1,4 @@
-This project is deployed at https://stock-simulator-react.vercel.app/
+This project is deployed at hanyin.dev
 
 ## Data Source
 This project use Yahoo Financial API as data source
