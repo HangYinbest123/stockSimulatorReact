@@ -1,4 +1,4 @@
-This project is deployed at https://stock-simulator-react.vercel.app/
+This project is deployed at https://hangyin.dev
 
 ## Data Source
 This project use Yahoo Financial API as data source
@@ -7,5 +7,4 @@ This project use Yahoo Financial API as data source
 User can get stock price and metrics using search bar, a stock graph will be displayed to help decision-making.
 
 ## In progress:
-Working on developing trading functionality.
-
+Working on trading functionality.
