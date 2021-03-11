@@ -7,4 +7,5 @@ This project use Yahoo Financial API as data source
 User can get stock price and metrics using search bar, a stock graph will be displayed to help decision-making.
 
 ## In progress:
-Working on trading functionality.
+Working on developing trading functionality.
+
