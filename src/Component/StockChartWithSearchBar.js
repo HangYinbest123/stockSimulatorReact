@@ -23,7 +23,7 @@ export default class StockChartWithSearchBar extends Component {
     componentDidMount = async () => {
         this.populateChartDataForLastYear();
         this.getQuote();
-        // this.populateChartDataForLast24h();
+        this.interval = setInterval(() => this.getQuote(), 3000)
     }
 
     populateChartDataForLastYear(){
@@ -94,7 +94,7 @@ export default class StockChartWithSearchBar extends Component {
         return (
             <div className="stock-chart-with-searchbar">
                 <SearchBar onSubmit={this.OnSearchSubmit} placeholder="Search"/>
-                <AnimatedStockPrice className ="animated-stock-price" value={this.state.regularMarketPrice} longName={this.state.longName}></AnimatedStockPrice>
+                <AnimatedStockPrice className="animated-stock-price" value={this.state.regularMarketPrice} longName={this.state.longName}/>
                 <Chart data={this.state.data} symbol={this.state.symbol} longName={this.state.longName} regularMarketPrice={this.state.regularMarketPrice}/>
             </div>
         )
