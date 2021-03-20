@@ -24,7 +24,7 @@ export default class StockChartWithSearchBar extends Component {
     componentDidMount = async () => {
         this.populateChartDataForLastYear();
         this.getQuote();
-        // this.interval = setInterval(() => this.getQuote(), 3000);
+        this.interval = setInterval(() => this.getQuote(), 3000);
         // window.addEventListener("focus", () => this.onFocus);
         // window.addEventListener("blur", () => this.onBlur);
     }
