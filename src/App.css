@@ -1,38 +1,24 @@
-/*.StockChartWithSearchBar {*/
-/*  text-align: center;*/
-/*}*/
+.flexbox-container {
+    display: flex;
+    flex-direction: row;
 
-/*.StockChartWithSearchBar-logo {*/
-/*  height: 40vmin;*/
-/*  pointer-events: none;*/
-/*}*/
+    flex-wrap: wrap;
+    justify-content: center;
+}
 
-/*@media (prefers-reduced-motion: no-preference) {*/
-/*  .StockChartWithSearchBar-logo {*/
-/*    animation: StockChartWithSearchBar-logo-spin infinite 20s linear;*/
-/*  }*/
-/*}*/
+.flex-item-left{
+    /*won't grow or shrink, keep it 800px*/
+    flex: 0 0 800px;
+    margin: 10px;
+}
 
-/*.StockChartWithSearchBar-header {*/
-/*  background-color: #282c34;*/
-/*  min-height: 100vh;*/
-/*  display: flex;*/
-/*  flex-direction: column;*/
-/*  align-items: center;*/
-/*  justify-content: center;*/
-/*  font-size: calc(10px + 2vmin);*/
-/*  color: white;*/
-/*}*/
+.flex-item-right{
+    flex: 0 0 250px;
+    margin: 10px;
+}
 
-/*.StockChartWithSearchBar-link {*/
-/*  color: #61dafb;*/
-/*}*/
-
-/*@keyframes StockChartWithSearchBar-logo-spin {*/
-/*  from {*/
-/*    transform: rotate(0deg);*/
-/*  }*/
-/*  to {*/
-/*    transform: rotate(360deg);*/
-/*  }*/
+/*@media (max-width: 800px) {*/
+/*    .flex-item-right, .flex-item-left {*/
+/*        flex: 100%;*/
+/*    }*/
 /*}*/

@@ -11,6 +11,7 @@ const GET_QUOTE_URL = "/market/v2/get-quotes";
 
 export default class StockChartWithSearchBar extends Component {
     state = {data: [], symbol: "TSLA", currentQuote: null, postMarketPrice: null, regularMarketPrice: null, longName: null};
+
     OnSearchSubmit = async (term) => {
         term = term.toUpperCase();
         this.setState({symbol: term}, async ()=>{
@@ -23,7 +24,17 @@ export default class StockChartWithSearchBar extends Component {
     componentDidMount = async () => {
         this.populateChartDataForLastYear();
         this.getQuote();
-        this.interval = setInterval(() => this.getQuote(), 3000)
+        // this.interval = setInterval(() => this.getQuote(), 3000);
+        // window.addEventListener("focus", () => this.onFocus);
+        // window.addEventListener("blur", () => this.onBlur);
+    }
+
+    onFocus = ()=>{
+        this.interval = setInterval(() => this.getQuote(), 3000);
+    }
+
+    onBlur = ()=>{
+        clearInterval(this.interval);
     }
 
     populateChartDataForLastYear(){
@@ -57,6 +68,7 @@ export default class StockChartWithSearchBar extends Component {
     }
 
     getQuote(){
+        console.log("Starting to get quote" );
         YahooFinancial.get(GET_QUOTE_URL, {
             params:{
                 "region": "US",
@@ -64,12 +76,14 @@ export default class StockChartWithSearchBar extends Component {
             }
         }).then((res) => {
             console.log("Quote: ")
-            console.log(JSON.stringify(res));
+            // console.log(JSON.stringify(res));
             const postMarketPrice = res.data.quoteResponse.result[0].postMarketPrice;
             const regularMarketPrice = res.data.quoteResponse.result[0].regularMarketPrice;
             const longName = res.data.quoteResponse.result[0].longName;
             console.log("postMarketPrice");
             console.log(postMarketPrice);
+            console.log("regularMarketPrice");
+            console.log(regularMarketPrice);
 
             this.setState({postMarketPrice: postMarketPrice});
             this.setState({regularMarketPrice: regularMarketPrice});

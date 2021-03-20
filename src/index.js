@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import StockChartWithSearchBar from './Component/StockChartWithSearchBar';
+
+import App from "./Component/App";
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <StockChartWithSearchBar />
+    <App/>
   </React.StrictMode>,
   document.getElementById('root')
 );

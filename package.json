@@ -10,7 +10,9 @@
     "axios": "^0.21.1",
     "moment": "^2.27.0",
     "react": "^16.13.1",
+    "react-client-session": "0.0.7",
     "react-dom": "^16.13.1",
+    "react-google-login": "^5.2.2",
     "react-highcharts": "^16.1.0",
     "react-scripts": "^3.4.1",
     "react-search-field": "^1.2.0"
