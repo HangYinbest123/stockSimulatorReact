@@ -8,6 +8,13 @@
 
 .flex-item-left{
     /*won't grow or shrink, keep it 800px*/
+    flex: 0 0 100px;
+    margin: 10px;
+    justify-content: flex-start;
+}
+
+.flex-item-mid{
+    /*won't grow or shrink, keep it 800px*/
     flex: 0 0 800px;
     margin: 10px;
 }

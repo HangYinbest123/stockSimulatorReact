@@ -92,9 +92,10 @@ export default class App extends React.Component {
 
         return (
             <div className="App">
-                {button}
+
                 <div className="flexbox-container">
-                    <div className="flex-item-left"><StockChartWithSearchBar/></div>
+                    <div className="flex-item-left">{button}</div>
+                    <div className="flex-item-mid"><StockChartWithSearchBar/></div>
                     <div className="flex-item-right">{stockCardList}</div>
                 </div>
             </div>

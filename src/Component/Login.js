@@ -17,7 +17,7 @@ export default class Login extends React.Component {
 
     render() {
         return (
-            <GoogleLogin
+            <GoogleLogin className="login"
                 clientId="632331231557-utvqe8utmdfqd779sj892h04356nm3j7.apps.googleusercontent.com"
                 buttonText="Login"
                 onSuccess={this.successResponseGoogle}
