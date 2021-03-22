@@ -44,7 +44,6 @@ export default class App extends React.Component {
 
     }
 
-    // TODO: refactor to get multiple stocks from 1 http request
     getQuoteForStocks(stockList){
         let symbols = this.getSymbolsFromStockList(stockList);
         console.log(symbols);

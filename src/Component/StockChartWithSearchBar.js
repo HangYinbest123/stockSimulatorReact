@@ -1,50 +1,76 @@
 import React, {Component} from 'react'
 import Chart from "./Chart";
 import SearchBar from "./SearchBar";
-import YahooFinancial from "../api/YahooFinancial";
+import YahooFinancial, {autoComplete} from "../api/YahooFinancial";
 import './StockChartWithSearchBar.css'
 import AnimatedStockPrice from "./AnimatedStockPrice";
 
 
 const GET_CHART_URL = "/stock/v2/get-chart";
 const GET_QUOTE_URL = "/market/v2/get-quotes";
+const GET_AUTO_COMPLETE = "auto-complete";
 
 export default class StockChartWithSearchBar extends Component {
-    state = {data: [], symbol: "TSLA", currentQuote: null, postMarketPrice: null, regularMarketPrice: null, longName: null};
+    state = {
+        data: [],
+        symbol: "TSLA",
+        currentQuote: null,
+        postMarketPrice: null,
+        regularMarketPrice: null,
+        longName: null
+    };
 
     OnSearchSubmit = async (term) => {
-        term = term.toUpperCase();
-        this.setState({symbol: term}, async ()=>{
-            // const symbol = this.state.symbol;
-            this.populateChartDataForLastYear();
-            this.getQuote();
-            // this.populateChartDataForLast24h();
-        });
+        // term = term.toUpperCase();
+        await this.getStockSymbolByTermThenUpdateState(term);
+        console.log("after await, symbol is: " + this.state.symbol);
     }
     componentDidMount = async () => {
         this.populateChartDataForLastYear();
         this.getQuote();
-        this.interval = setInterval(() => this.getQuote(), 3000);
+        // this.interval = setInterval(() => this.getQuote(), 3000);
         // window.addEventListener("focus", () => this.onFocus);
         // window.addEventListener("blur", () => this.onBlur);
     }
 
-    onFocus = ()=>{
+    onFocus = () => {
         this.interval = setInterval(() => this.getQuote(), 3000);
     }
 
-    onBlur = ()=>{
+    onBlur = () => {
         clearInterval(this.interval);
     }
 
-    populateChartDataForLastYear(){
+    getStockSymbolByTermThenUpdateState = async (term) => {
+        // autoComplete.get();
+        YahooFinancial.get(GET_AUTO_COMPLETE, {
+            params: {
+                "q": term,
+                "region": "US"
+            }
+        }).then(res => {
+            console.log(JSON.stringify(res));
+            const symbol = res.data.quotes[0].symbol;
+            this.setState({symbol: symbol}, async () => {
+                // const symbol = this.state.symbol;
+                this.populateChartDataForLastYear();
+                this.getQuote();
+                // this.populateChartDataForLast24h();
+            })
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
+    populateChartDataForLastYear() {
         YahooFinancial.get(GET_CHART_URL, {
             params: {
                 "interval": "1d",
                 "symbol": this.state.symbol,
                 "range": "1y",
-                "region": "US"}
-        }).then((res) =>{
+                "region": "US"
+            }
+        }).then((res) => {
             const data = this.getChartDataFromResponse(res);
             this.setState({data: data});
         }).catch(err => {
@@ -52,14 +78,15 @@ export default class StockChartWithSearchBar extends Component {
         })
     }
 
-    populateDataForLast24h(){
+    populateDataForLast24h() {
         YahooFinancial.get(GET_CHART_URL, {
             params: {
                 "interval": "1h",
                 "symbol": this.state.symbol,
                 "range": "1d",
-                "region": "US"}
-        }).then((res) =>{
+                "region": "US"
+            }
+        }).then((res) => {
             const data = this.getChartDataFromResponse(res);
             this.setState({data: data});
         }).catch(err => {
@@ -67,10 +94,10 @@ export default class StockChartWithSearchBar extends Component {
         })
     }
 
-    getQuote(){
-        console.log("Starting to get quote" );
+    getQuote() {
+        console.log("Starting to get quote");
         YahooFinancial.get(GET_QUOTE_URL, {
-            params:{
+            params: {
                 "region": "US",
                 "symbols": this.state.symbol
             }
@@ -98,8 +125,8 @@ export default class StockChartWithSearchBar extends Component {
         let data = [];
         let timestamps = response.data.chart.result[0].timestamp;
         let closePrices = response.data.chart.result[0].indicators.quote[0].close;
-        for(let i = 0; i < timestamps.length; i ++){
-            data.push([timestamps[i]*1000, closePrices[i]]);
+        for (let i = 0; i < timestamps.length; i++) {
+            data.push([timestamps[i] * 1000, closePrices[i]]);
         }
         return data;
     }
@@ -108,8 +135,10 @@ export default class StockChartWithSearchBar extends Component {
         return (
             <div className="stock-chart-with-searchbar">
                 <SearchBar onSubmit={this.OnSearchSubmit} placeholder="Search"/>
-                <AnimatedStockPrice className="animated-stock-price" value={this.state.regularMarketPrice} longName={this.state.longName}/>
-                <Chart data={this.state.data} symbol={this.state.symbol} longName={this.state.longName} regularMarketPrice={this.state.regularMarketPrice}/>
+                <AnimatedStockPrice className="animated-stock-price" value={this.state.regularMarketPrice}
+                                    longName={this.state.longName}/>
+                <Chart data={this.state.data} symbol={this.state.symbol} longName={this.state.longName}
+                       regularMarketPrice={this.state.regularMarketPrice}/>
             </div>
         )
     }
