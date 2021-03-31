@@ -47,12 +47,8 @@ export default class Chart extends Component {
                     return numberFormat.format(this.y, 0) +  '</b><br/>' + moment(this.x).format('MMMM Do YYYY, h:mm')
                 }
             },
-            plotOptions: {
-                series: {
-                    showInNavigator: true,
-                    gapSize: 6,
-
-                }
+            navigator: {
+                enabled: false
             },
             chart: {
                 height: 600,
