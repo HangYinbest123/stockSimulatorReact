@@ -1,9 +1,14 @@
 import React, {Component} from 'react'
 import Chart from "./Chart";
 import SearchBar from "./SearchBar";
-import YahooFinancial, {autoComplete} from "../api/YahooFinancial";
-import './StockChartWithSearchBar.css'
+import {YahooFinancial} from "../api/YahooFinancial";
+
+import './css/StockChartWithSearchBar.css'
 import AnimatedStockPrice from "./AnimatedStockPrice";
+import {Button, ButtonToolbar} from "react-bootstrap";
+import TradeModal from "./TradeModal";
+
+import {trade} from "../api/StockSimulator";
 
 
 const GET_CHART_URL = "/stock/v2/get-chart";
@@ -17,18 +22,24 @@ export default class StockChartWithSearchBar extends Component {
         currentQuote: null,
         postMarketPrice: null,
         regularMarketPrice: null,
-        longName: null
+        longName: null,
+        showTradeModal: false,
+        userId: null
     };
 
     OnSearchSubmit = async (term) => {
         // term = term.toUpperCase();
+
         await this.getStockSymbolByTermThenUpdateState(term);
         console.log("after await, symbol is: " + this.state.symbol);
     }
     componentDidMount = async () => {
+        if(sessionStorage.getItem("lastCheckedStockSymbol") !== null){
+            await this.setState({symbol: sessionStorage.getItem("lastCheckedStockSymbol")});
+        }
         this.populateChartDataForLastYear();
         this.getQuote();
-        this.interval = setInterval(() => this.getQuote(), 3000);
+        // this.interval = setInterval(() => this.getQuote(), 3000);
         // window.addEventListener("focus", () => this.onFocus);
         // window.addEventListener("blur", () => this.onBlur);
     }
@@ -51,6 +62,7 @@ export default class StockChartWithSearchBar extends Component {
         }).then(res => {
             console.log(JSON.stringify(res));
             const symbol = res.data.quotes[0].symbol;
+            sessionStorage.setItem("lastCheckedStockSymbol", symbol)
             this.setState({symbol: symbol}, async () => {
                 // const symbol = this.state.symbol;
                 this.populateChartDataForLastYear();
@@ -107,10 +119,7 @@ export default class StockChartWithSearchBar extends Component {
             const postMarketPrice = res.data.quoteResponse.result[0].postMarketPrice;
             const regularMarketPrice = res.data.quoteResponse.result[0].regularMarketPrice;
             const longName = res.data.quoteResponse.result[0].longName;
-            console.log("postMarketPrice");
-            console.log(postMarketPrice);
-            console.log("regularMarketPrice");
-            console.log(regularMarketPrice);
+
 
             this.setState({postMarketPrice: postMarketPrice});
             this.setState({regularMarketPrice: regularMarketPrice});
@@ -131,12 +140,54 @@ export default class StockChartWithSearchBar extends Component {
         return data;
     }
 
+    tradeFormSubmitcallback = ()=>{
+        // get portfolio and balance
+        window.location.reload(false);
+    }
+
+    onTradeFormSubmit = (symbol, unitCost, tradeType, quantity)=>{
+        console.log("Submitted order: ")
+        console.log(symbol);
+        console.log(tradeType);
+        console.log(quantity);
+
+        // call trade function
+        trade(this.props.userId, symbol, tradeType, quantity, unitCost, this.tradeFormSubmitcallback);
+        // close the form
+        this.setState({showTradeModal: false});
+    }
+
     render() {
+        let tradeButton;
+        let tradeModal;
+        console.log("After search, stock symbol is: " + this.state.symbol);
+
+        if (this.props.isUserLogin) {
+            tradeButton = (
+                <ButtonToolbar> <Button variant="primary" onClick={() => this.setState({showTradeModal: true})}>
+                    Trade
+                </Button></ButtonToolbar>
+            );
+            console.log("Show trade modal? " + this.state.showTradeModal);
+
+            tradeModal = <TradeModal symbol={this.state.symbol} unitCost={this.state.regularMarketPrice} show={this.state.showTradeModal} onHide={()=>this.setState({ showTradeModal: false })}
+                                     onTradeFormSubmit={this.onTradeFormSubmit}/>
+        }
+
+
         return (
             <div className="stock-chart-with-searchbar">
                 <SearchBar onSubmit={this.OnSearchSubmit} placeholder="Search"/>
+
+                <div>
+                    <span className="right" style={{float: "right"}}>
+                        {tradeButton}
+                    </span>
+                </div>
                 <AnimatedStockPrice className="animated-stock-price" value={this.state.regularMarketPrice}
                                     longName={this.state.longName}/>
+                {tradeModal}
+
                 <Chart data={this.state.data} symbol={this.state.symbol} longName={this.state.longName}
                        regularMarketPrice={this.state.regularMarketPrice}/>
             </div>
