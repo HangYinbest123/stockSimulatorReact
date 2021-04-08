@@ -1,12 +1,9 @@
 import React from "react";
 import AnimatedNumber from "animated-number-react";
-import {numberFormat} from '../Util/numberFormat';
-import './StockCard.css';
+import {formatValueToUSD} from '../Util/numberFormat';
+import './css/StockCard.css';
 
 export default class StockCard extends React.Component {
-    formatValue = (value) => {
-        return numberFormat.format(value, 0);
-    }
 
     render() {
         console.log("stocks props in StockCard");
@@ -14,16 +11,31 @@ export default class StockCard extends React.Component {
         return (
             <div className="stock-card">
                 <div className="ui segment">
-                    <div className="stock-card-name">{this.props.stock.longName}</div>
-                    <div className="stock-card-quote">
+                    <div className="stock-card-name">{this.props.stock.symbol}
+                        <span className="stock-card-quote" style={{float: "right"}}>
                         <AnimatedNumber
-                        value={this.props.stock.quote}
-                        formatValue={this.formatValue}
-                        duration={600}
+                            value={this.props.stock.quote}
+                            formatValue={formatValueToUSD}
+                            duration={600}
                         />
+                    </span>
                     </div>
-                    <div>Quantity</div>
-                    <div>{this.props.stock.quantity}</div>
+
+                    <div>
+                        Quantity
+                        <span style={{float: "right"}}>{this.props.stock.quantity}</span>
+                    </div>
+
+                    <div>
+                        Unit Cost
+                        <span style={{float: "right"}}>
+                            <AnimatedNumber
+                                value={this.props.stock.unitCost}
+                                formatValue={formatValueToUSD}
+                                duration={600}
+                            /></span>
+                    </div>
+
                 </div>
             </div>
         );
