@@ -1,7 +1,7 @@
 import React from "react";
 import AnimatedNumber from "animated-number-react";
 import {numberFormat} from '../Util/numberFormat';
-import './AnimatedStockPrice.css'
+import './css/AnimatedStockPrice.css'
 
 export default class AnimatedStockPrice extends React.Component {
     formatValue = (value) => {
@@ -11,7 +11,6 @@ export default class AnimatedStockPrice extends React.Component {
         return (
             <div className="animated-stock-price">
                 {this.props.longName}
-                <br/>
                 <br/>
                 <AnimatedNumber
                     value={this.props.value}
