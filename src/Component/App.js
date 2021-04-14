@@ -59,7 +59,14 @@ export default class App extends React.Component {
         // has to await here
 
         getUserByThirdPartyId(googleUser, this.getUserByThirdPartyIdCallback);
+    }
 
+    onLogoutSuscessfullyChange = async (logoutResponse) => {
+        console.log("Logout response: " + logoutResponse);
+
+        sessionStorage.clear();
+
+        this.setState({THIRD_PARTY_USER_ID: null, isUserLogin: false});
     }
 
     // Store user info and call get user portfolio, get user balance
@@ -169,7 +176,7 @@ export default class App extends React.Component {
         let totalAssetCard;
 
         if (this.state.isUserLogin) {
-            button = <Logout/>;
+            button = <Logout onLogoutSuccessfullyChange={this.onLogoutSuscessfullyChange}/>;
             stockCardList = <StockCardList stocks={this.state.userStocks}/>;
             balanceCard = (<div className="flexbox-container">
                 <div className="flex-item-left"/>
