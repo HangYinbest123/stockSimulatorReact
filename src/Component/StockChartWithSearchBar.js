@@ -177,7 +177,7 @@ export default class StockChartWithSearchBar extends Component {
 
         return (
             <div className="stock-chart-with-searchbar">
-                <SearchBar onSubmit={this.OnSearchSubmit} placeholder="Search"/>
+                <SearchBar onSubmit={this.OnSearchSubmit} placeholder="Enter company name or stock symbol"/>
 
                 <div>
                     <span className="right" style={{float: "right"}}>
