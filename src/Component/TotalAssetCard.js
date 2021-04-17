@@ -22,8 +22,9 @@ export default class TotalAssetCard extends React.Component {
     render() {
 
         return (
+
             <div className="total-asset-card" style={{textAlign: "left"}}>
-                <div className="ui segment">
+
                     Total Asset:
                     <span className="right" style={{float: "right"}}>
                         <AnimatedNumber
@@ -32,7 +33,7 @@ export default class TotalAssetCard extends React.Component {
                             duration={600}
                         /> ({this.getAssetPercentageChange()})
                     </span>
-                </div>
+
             </div>
         );
     }

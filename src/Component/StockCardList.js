@@ -14,7 +14,7 @@ export default class StockCardList extends React.Component {
         });
         return (
             <div className="stock-card-list ui segments">
-                <h2>Your Stock List</h2>
+                Your Stock List
                 {stockCards}
             </div>
         );

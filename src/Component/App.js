@@ -1,7 +1,6 @@
 import React from "react";
 import StockChartWithSearchBar from "./StockChartWithSearchBar";
 import Login from "./Login";
-import Logout from "./Logout";
 import StockCardList from "./StockCardList";
 import {YahooFinancial} from "../api/YahooFinancial";
 import {
@@ -15,6 +14,10 @@ import BalanceCard from "./BalanceCard";
 import TotalAssetCard from "./TotalAssetCard";
 
 import 'bootstrap/dist/css/bootstrap.css';
+import NavBar from "./Navbar";
+import SignInModal from "./SignInModal";
+import FundAlert from "./FundRecivedModal";
+import FundReceivedModal from "./FundRecivedModal";
 
 const THIRD_PARTY_USER_ID = "thirdPartyUserId";
 const USER_ID = "userId";
@@ -24,7 +27,17 @@ const FIRST_NAME = "firstName";
 const LAST_NAME = "lastName";
 
 export default class App extends React.Component {
-    state = {isUserLogin: false, userId: "", userStocks: [], THIRD_PARTY_USER_ID: "", userBalance: 0, showTradeModal: false, directDeposit: 0};
+    state = {
+        isUserLogin: false,
+        userId: "",
+        userStocks: [],
+        THIRD_PARTY_USER_ID: "",
+        userBalance: 0,
+        showTradeModal: false,
+        directDeposit: 0,
+        showSignInModal: false,
+        showFundReceivedModal: false
+    };
 
     componentDidMount() {
         console.log("After refresh: ");
@@ -49,7 +62,7 @@ export default class App extends React.Component {
         let thirdPartyUserId = googleUser.getBasicProfile().getId();
         // let firstName = googleUser.getBasicProfile().getGivenName();
         // let lastName = googleUser.getBasicProfile().getFamilyName();
-
+        this.setState({showSignInModal: false});
         sessionStorage.setItem(THIRD_PARTY_USER_ID, thirdPartyUserId);
         sessionStorage.setItem(IS_USER_LOGIN, true);
 
@@ -106,8 +119,9 @@ export default class App extends React.Component {
         }
     }
 
-    addUserBalanceCallback = ()=>{
+    addUserBalanceCallback = () => {
         getUserBalance(this.state.userId, this.getUserBalanceCallback);
+        this.setState({showFundReceivedModal: true});
     }
 
     // getUserPortfolio = async() => {
@@ -170,13 +184,13 @@ export default class App extends React.Component {
 
 
     render() {
-        let button;
+        let loginButton;
         let stockCardList;
         let balanceCard;
         let totalAssetCard;
 
         if (this.state.isUserLogin) {
-            button = <Logout onLogoutSuccessfullyChange={this.onLogoutSuscessfullyChange}/>;
+
             stockCardList = <StockCardList stocks={this.state.userStocks}/>;
             balanceCard = (<div className="flexbox-container">
                 <div className="flex-item-left"/>
@@ -195,17 +209,23 @@ export default class App extends React.Component {
             </div>);
 
         } else {
-            button = <Login onLoginSuccessfullyChange={this.onLoginSuccessfullyChange}/>;
+            loginButton = <Login onLoginSuccessfullyChange={this.onLoginSuccessfullyChange}/>;
         }
 
 
         return (
             <div className="App">
-
-
+                <FundReceivedModal show={this.state.showFundReceivedModal} onHide={() => this.setState({showFundReceivedModal: false})}/>
+                <NavBar isUserLogin={this.state.isUserLogin}
+                        onLogoutSuccessfullyChange={this.onLogoutSuscessfullyChange}
+                        onShowLoginModal={() => this.setState({showSignInModal: true})}
+                        onHideLoginModal={() => this.setState({showSignInModal: false})}></NavBar>
+                <SignInModal show={this.state.showSignInModal} onHide={() => this.setState({showSignInModal: false})}
+                             onLoginSuccessfullyChange={this.onLoginSuccessfullyChange}/>
                 <div className="flexbox-container">
-                    <div className="flex-item-left">{button}</div>
-                    <div className="flex-item-mid"><StockChartWithSearchBar isUserLogin={this.state.isUserLogin} userId={this.state.userId}/></div>
+                    <div className="flex-item-left"></div>
+                    <div className="flex-item-mid"><StockChartWithSearchBar isUserLogin={this.state.isUserLogin}
+                                                                            userId={this.state.userId}/></div>
                     <div className="flex-item-right">{stockCardList}</div>
                 </div>
                 {totalAssetCard}

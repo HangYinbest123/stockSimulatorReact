@@ -9,7 +9,6 @@ export default class BalanceCard extends React.Component {
 
         return (
             <div className="balance-card" style={{textAlign: "left"}}>
-                <div className="ui segment">
                     Your balance:
                     <span className="right" style={{float: "right"}}>
                         <AnimatedNumber
@@ -18,7 +17,6 @@ export default class BalanceCard extends React.Component {
                             duration={600}
                         />
                     </span>
-                </div>
             </div>
         );
     }

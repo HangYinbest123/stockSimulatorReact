@@ -164,7 +164,7 @@ export default class StockChartWithSearchBar extends Component {
 
         if (this.props.isUserLogin) {
             tradeButton = (
-                <ButtonToolbar> <Button variant="primary" onClick={() => this.setState({showTradeModal: true})}>
+                <ButtonToolbar> <Button variant="primary" bg="dark" onClick={() => this.setState({showTradeModal: true})}>
                     Trade
                 </Button></ButtonToolbar>
             );
