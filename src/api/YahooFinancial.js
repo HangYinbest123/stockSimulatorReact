@@ -1,14 +1,14 @@
 import axios from 'axios';
 
-const BASE_URL_YAHOO_FINANCE = 'https://apidojo-yahoo-finance-v1.p.rapidapi.com';
+const BASE_URL_YAHOO_FINANCE = 'https://***';
 
 const GET_QUOTE_URL = "/market/v2/get-quotes";
 
 export const YahooFinancial = axios.create({
     baseURL: BASE_URL_YAHOO_FINANCE,
     headers: {
-        "x-rapidapi-key": "95d6acc078msh9ba6639d0df4657p1a2bacjsna8d880743664",
-        "x-rapidapi-host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
+        "x-rapidapi-key": "***",
+        "x-rapidapi-host": "***",
         "useQueryString": true
     },
 });
