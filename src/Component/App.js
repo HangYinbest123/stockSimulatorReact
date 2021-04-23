@@ -18,6 +18,7 @@ import NavBar from "./Navbar";
 import SignInModal from "./SignInModal";
 import FundAlert from "./FundRecivedModal";
 import FundReceivedModal from "./FundRecivedModal";
+import actions from '../actions';
 
 const THIRD_PARTY_USER_ID = "thirdPartyUserId";
 const USER_ID = "userId";
@@ -36,7 +37,8 @@ export default class App extends React.Component {
         showTradeModal: false,
         directDeposit: 0,
         showSignInModal: false,
-        showFundReceivedModal: false
+        showFundReceivedModal: false,
+        symbol: 'BAC'
     };
 
     componentDidMount() {
@@ -74,7 +76,7 @@ export default class App extends React.Component {
         getUserByThirdPartyId(googleUser, this.getUserByThirdPartyIdCallback);
     }
 
-    onLogoutSuscessfullyChange = async (logoutResponse) => {
+    onLogoutSuccessfullyChange = async (logoutResponse) => {
         console.log("Logout response: " + logoutResponse);
 
         sessionStorage.clear();
@@ -191,7 +193,7 @@ export default class App extends React.Component {
 
         if (this.state.isUserLogin) {
 
-            stockCardList = <StockCardList stocks={this.state.userStocks}/>;
+            stockCardList = <StockCardList  onClickStockCard={(s)=>{this.setState({symbol: s})}} stocks={this.state.userStocks}/>;
             balanceCard = (<div className="flexbox-container">
                 <div className="flex-item-left"/>
                 <div className="flex-item-mid">
@@ -217,14 +219,14 @@ export default class App extends React.Component {
             <div className="App">
                 <FundReceivedModal show={this.state.showFundReceivedModal} onHide={() => this.setState({showFundReceivedModal: false})}/>
                 <NavBar isUserLogin={this.state.isUserLogin}
-                        onLogoutSuccessfullyChange={this.onLogoutSuscessfullyChange}
+                        onLogoutSuccessfullyChange={this.onLogoutSuccessfullyChange}
                         onShowLoginModal={() => this.setState({showSignInModal: true})}
-                        onHideLoginModal={() => this.setState({showSignInModal: false})}></NavBar>
+                        onHideLoginModal={() => this.setState({showSignInModal: false})}/>
                 <SignInModal show={this.state.showSignInModal} onHide={() => this.setState({showSignInModal: false})}
                              onLoginSuccessfullyChange={this.onLoginSuccessfullyChange}/>
                 <div className="flexbox-container">
-                    <div className="flex-item-left"></div>
-                    <div className="flex-item-mid"><StockChartWithSearchBar isUserLogin={this.state.isUserLogin}
+                    <div className="flex-item-left"/>
+                    <div className="flex-item-mid"><StockChartWithSearchBar symbol={this.state.symbol} isUserLogin={this.state.isUserLogin}
                                                                             userId={this.state.userId}/></div>
                     <div className="flex-item-right">{stockCardList}</div>
                 </div>
