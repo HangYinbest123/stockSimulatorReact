@@ -17,7 +17,7 @@ export default class FundReceivedModal extends React.Component {
                     <Modal.Title>Fund Available!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Congratulation! Your $10000 Trading Fund is Available!
+                    Congratulation! Your $10,000 Trading Fund is Available!
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={this.props.onHide}>
