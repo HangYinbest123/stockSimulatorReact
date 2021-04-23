@@ -18,7 +18,7 @@ const GET_AUTO_COMPLETE = "auto-complete";
 export default class StockChartWithSearchBar extends Component {
     state = {
         data: [],
-        symbol: "TSLA",
+        symbol: this.props.symbol,
         currentQuote: null,
         postMarketPrice: null,
         regularMarketPrice: null,
@@ -53,7 +53,6 @@ export default class StockChartWithSearchBar extends Component {
     }
 
     getStockSymbolByTermThenUpdateState = async (term) => {
-        // autoComplete.get();
         YahooFinancial.get(GET_AUTO_COMPLETE, {
             params: {
                 "q": term,
