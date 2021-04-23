@@ -9,7 +9,7 @@ export default class BalanceCard extends React.Component {
 
         return (
             <div className="balance-card" style={{textAlign: "left"}}>
-                    Your balance:
+                    Cash:
                     <span className="right" style={{float: "right"}}>
                         <AnimatedNumber
                             value={this.props.balance}
